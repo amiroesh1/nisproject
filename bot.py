@@ -5,7 +5,7 @@ import requests
 import io
 
 # Твой токен бота
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = "7675263394:AAF37007ZwPg5wzC5yeHEaYeUlDDHkDxP_4"
 bot = telebot.TeleBot(TOKEN)
 
 # Сценарные ответы
