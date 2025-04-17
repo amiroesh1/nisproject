@@ -5,7 +5,7 @@ import requests
 import io
 
 # Твой токен бота
-TOKEN = "ANSARITOTOKEN"
+TOKEN = "7971642283:AAH37BdEYSbYUF9_2vz4wIK0xp7o-vCG2xw"
 bot = telebot.TeleBot(TOKEN)
 
 # Сценарные ответы
@@ -25,9 +25,17 @@ def send_welcome(message):
     btn4 = types.KeyboardButton("📸 Отправить фото")
     markup.add(btn1, btn2, btn3, btn4)
 
-    bot.send_message(message.chat.id,
-                     "👋 Привет! Я StudyBuddy — помощник по учёбе. Выбери, что тебе нужно:",
-                     reply_markup=markup)
+    instructions = (
+        "👋 Привет! Я StudyBuddy — помощник по учёбе.\n\n"
+        "Вот что я умею:\n\n"
+        "📖 Шпаргалка — быстрая формула по математике.\n"
+        "🌤 Погода — текущая погода в твоём городе.\n"
+        "💡 Цитата дня — вдохновляющая цитата от известных людей.\n"
+        "📸 Отправить фото — я превращу твоё фото в стикер.\n\n"
+        "Нажми на нужную кнопку ниже 👇"
+    )
+
+    bot.send_message(message.chat.id, instructions, reply_markup=markup)
 
 # Обработка текстовых сообщений
 @bot.message_handler(func=lambda message: True)
@@ -58,16 +66,10 @@ def handle_photo(message):
     file_info = bot.get_file(file_id)
     downloaded_file = bot.download_file(file_info.file_path)
 
-    # Сохраняем фото
     image = Image.open(io.BytesIO(downloaded_file))
-    
-    # Приводим изображение к квадратному формату 512x512 пикселей
     image = image.resize((512, 512))
-
-    # Сохраняем изображение
     image.save('user_photo.webp', 'WEBP')
 
-    # Отправляем стикер
     with open('user_photo.webp', 'rb') as sticker_file:
         bot.send_sticker(message.chat.id, sticker_file)
 
