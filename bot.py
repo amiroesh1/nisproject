@@ -75,10 +75,24 @@ def handle_photo(message):
 
     bot.reply_to(message, "📸 Фото получено и превращено в стикер! 🎉")
 
-# Получение погоды с внешнего API
+# ✅ Получение погоды через Open-Meteo (без ключей)
 def send_weather(message):
-    response = requests.get("https://wttr.in/?format=3")
-    bot.send_message(message.chat.id, f"🌤 Погода: {response.text}")
+    lat = 51.1694  # координаты Астаны
+    lon = 71.4491
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+
+    try:
+        res = requests.get(url)
+        data = res.json()
+
+        if "current_weather" in data:
+            temp = data["current_weather"]["temperature"]
+            wind = data["current_weather"]["windspeed"]
+            bot.send_message(message.chat.id, f"🌤 Погода: {temp}°C, ветер {wind} км/ч")
+        else:
+            bot.send_message(message.chat.id, "🌥 Не удалось получить погоду.")
+    except:
+        bot.send_message(message.chat.id, "❌ Ошибка при получении данных о погоде.")
 
 # Получение цитаты
 def send_quote(message):
