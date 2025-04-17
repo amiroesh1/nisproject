@@ -107,7 +107,7 @@ def receive_update():
 # ✅ Установка Webhook при первом запуске
 @app.route("/", methods=['GET'])
 def setup_webhook():
-    webhook_url = f"https://<ТВОЙ-РЕНДЕР-URL>.onrender.com/{TOKEN}"
+    webhook_url = f"https://nisproject-b9ds.onrender.com/{TOKEN}"
     bot.remove_webhook()
     bot.set_webhook(url=webhook_url)
     return "Webhook set", 200
